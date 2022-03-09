@@ -94,7 +94,7 @@ if __name__ == '__main__':
             f.write('#SBATCH --cpus-per-task=1\n')
             f.write('#SBATCH --array=0-199\n')
             f.write('python docker.py $SLURM_ARRAY_TASK_ID 200 --server $1 --exhaustiveness $2 --name $3 --oracle $4'
-                    '--target $5')
+                    ' --target $5')
         
         # Trainer
         with open(os.path.join(script_dir, 'slurm_trainer.sh'), 'w') as f :
