@@ -15,11 +15,13 @@ import torch.nn.functional as F
 
 # ======================= Loss functions ====================================
 
-def VAELoss(out, indices, mu, logvar):
+def VAELoss(out, indices, mu, logvar,w):
     """ 
     plain VAE loss. 
     """
-    CE = F.cross_entropy(out, indices, reduction="sum")
+
+
+    CE = F.cross_entropy(out, indices, reduction="sum", weight=w)
     KL = -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
 
     # returns zeros for multitask loss terms

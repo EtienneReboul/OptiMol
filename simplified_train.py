@@ -70,7 +70,7 @@ def basic_stat(smiles):
     smiles_FQ=np.quantile(smiles_length,0.25)
     smiles_TQ=np.quantile(smiles_length,0.75)
     return smiles_min,smiles_max,smiles_mean,smiles_median,smiles_FQ,smiles_TQ
-
+    
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
@@ -199,6 +199,14 @@ if __name__ == "__main__":
 
     # Train & test
 
+    w = torch.Tensor([0.0121831 , 0.00948938, 0.0037797 , 0.00370239, 0.0487059 ,
+       0.02717279, 0.0268647 , 0.01828908, 0.        , 0.        ,
+       0.        , 0.        , 0.00883506, 0.00717621, 0.00447146,
+       0.01183852, 0.00086813, 0.00217724, 0.06205034, 0.0210309 ,
+       0.18301888, 0.        , 0.02213646, 0.        , 0.        ,
+       0.        , 0.        , 0.        , 0.08724183, 0.00380611,
+       0.08325532, 0.05580069, 0.29610583]).to(device)
+
     if args.load_model:
         total_steps = args.load_iter
     else:
@@ -224,7 +232,7 @@ if __name__ == "__main__":
             
 
             # Compute loss terms : change according to multitask setting
-            rec, kl = VAELoss(out_smi, smiles, mu, logv)
+            rec, kl = VAELoss(out_smi, smiles, mu, logv, w)
 
 
 
@@ -292,7 +300,7 @@ if __name__ == "__main__":
                 smiles = smiles.to(device)
                 graph = send_graph_to_device(graph, device)
                 mu, logv, z, out_smi = model(graph, smiles, tf=tf_proba)
-                rec, kl = VAELoss(out_smi, smiles, mu, logv)
+                rec, kl = VAELoss(out_smi, smiles, mu, logv,w)
 
                 val_rec += rec.item()
                 val_kl += kl.item()
