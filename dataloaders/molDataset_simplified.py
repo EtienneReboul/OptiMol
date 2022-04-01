@@ -232,8 +232,8 @@ class molDataset(Dataset):
             return 0, valid_flag
             
         for _ in range(self.max_len - len_of_molecule): # selfies padding 
-            molecule+='[epsilon]'
-    
+            molecule+='[PADDING]'
+
         selfies_char_list_pre=molecule[1:-1].split('][')
         selfies_char_list=[]
         for selfies_element in selfies_char_list_pre:

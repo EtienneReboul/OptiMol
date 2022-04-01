@@ -199,13 +199,13 @@ if __name__ == "__main__":
 
     # Train & test
 
-    w = torch.Tensor([0.0121831 , 0.00948938, 0.0037797 , 0.00370239, 0.0487059 ,
-       0.02717279, 0.0268647 , 0.01828908, 0.        , 0.        ,
-       0.        , 0.        , 0.00883506, 0.00717621, 0.00447146,
-       0.01183852, 0.00086813, 0.00217724, 0.06205034, 0.0210309 ,
-       0.18301888, 0.        , 0.02213646, 0.        , 0.        ,
-       0.        , 0.        , 0.        , 0.08724183, 0.00380611,
-       0.08325532, 0.05580069, 0.29610583]).to(device)
+    w = torch.Tensor([0.01217708, 0.00948469, 0.00377783, 0.00370055, 0.04868181,
+       0.02715935, 0.02685141, 0.01828003, 0.        , 0.        ,
+       0.        , 0.        , 0.00883069, 0.00717266, 0.00446925,
+       0.01183266, 0.0008677 , 0.00217616, 0.06201966, 0.0210205 ,
+       0.18292837, 0.        , 0.02212551, 0.        , 0.        ,
+       0.        , 0.        , 0.        , 0.08719869, 0.00380422,
+       0.08321414, 0.05577309, 0.2959594 , 0.00049454]).to(device)
 
     if args.load_model:
         total_steps = args.load_iter
@@ -325,7 +325,7 @@ if __name__ == "__main__":
             z = model.sample_z_prior(args.nmol)
             gen_seq = model.decode(z)
             selfies = model.probas_to_smiles(gen_seq)
-            smiles = [decoder(s, bilocal_ring_function=True) for s in selfies]
+            smiles = [decoder(s.replace('[PADDING]',''), bilocal_ring_function=True) for s in selfies]
             smiles_min,smiles_max,smiles_mean,smiles_median,smiles_FQ,smiles_TQ= basic_stat(smiles=smiles)
             pool=Pool(args.processes)
             results_check=np.array(pool.map(ring_check,smiles))
