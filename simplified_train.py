@@ -127,7 +127,7 @@ if __name__ == "__main__":
     parser.add_argument('--tf_step', type=float, default=0.002)  # step decrease
     parser.add_argument('--tf_end', type=float, default=0)  # final tf frequency
     parser.add_argument('--tf_anneal_iter', type=int, default=1000)  # nbr of iters between each annealing
-    parser.add_argument('--tf_warmup', type=int, default=70000)  # nbr of steps at tf_init
+    parser.add_argument('--tf_warmup', type=int, default=3000000)  # nbr of steps at tf_init
 
 
     
@@ -299,7 +299,7 @@ if __name__ == "__main__":
 
                 smiles = smiles.to(device)
                 graph = send_graph_to_device(graph, device)
-                mu, logv, z, out_smi = model(graph, smiles, tf=tf_proba)
+                mu, logv, z, out_smi = model(graph, smiles, tf=0)
                 rec, kl = VAELoss(out_smi, smiles, mu, logv,w)
 
                 val_rec += rec.item()
