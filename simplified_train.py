@@ -27,7 +27,10 @@ import torch.optim.lr_scheduler as lr_scheduler
 
 import torch.nn.utils.clip_grad as clip
 import torch.nn.functional as F
-from torch.utils.tensorboard import SummaryWriter
+try:
+    from torch.utils.tensorboard import SummaryWriter
+except:
+    from tensorboardX import SummaryWriter
 from selfies import decoder
 from multiprocessing import Pool
 script_dir = os.path.dirname(os.path.realpath(__file__))
